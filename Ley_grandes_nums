@@ -1,0 +1,45 @@
+# Ley de los grandes números
+# Vinapsis
+
+import numpy as np
+import statistics as stat
+import matplotlib.pyplot as plt
+
+def agitar_la_caja(repeticiones):
+	'''
+	Función que simula una caja con 100 monedas y las agita.
+	Cuenta el número de monedas que cayeron en "Sol" y las agrega a una lista, calcula el promedio y lo grafíca.
+	agitar_la_caja(repeticiones)
+	donde 'repeticiones' es el numero de veces que se agitará la caja y se graficarán las medias aritmeticas.
+	'''
+
+	# Generar las listas vacias para almacenar los números
+	score = []			# Almacena el número de "soles" en cada experimento
+	score_mean = []		# Almacena la media de "soles" desde 1 hasta trial (va agregando una media con cada repetición)
+	xaxis = []			# Lista para generar el eje 'x' en el gráfico con longitud "repeticiones"
+
+
+	for num_de_experimento in range(repeticiones):
+		
+		es_sol = []		# Lista vacía en cada repetición que se llena de "soles", dependiendo si el valor generado es 0 (águila) o 1 (sol).
+
+		for i in range(100): # Girar 100 monedas
+			x = np.random.randint(0,2)
+			if x == 1:
+				es_sol.append(x)
+
+		score.append(len(es_sol))
+		score_mean.append(stat.mean(score))
+		xaxis.append(num_de_experimento) 
+
+	# Graficar los resultados
+	if repeticiones <= 500:
+		plt.scatter(xaxis, score_mean, s = 3)
+	else:
+		plt.scatter(xaxis, score_mean, s = 1)
+	plt.xlabel("Número de experimento")
+	plt.ylabel("Promedio Acumulado")
+	plt.plot([0, repeticiones], [50, 50], 'k-', lw=1)
+	plt.show()
+
+agitar_la_caja(1000)  # Edita el número entre parentesis para definir cuantas veces se agita la caja.
